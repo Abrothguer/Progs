@@ -172,6 +172,7 @@ def main():
     """ Creates the window, its menus and initializes the game """
 
     window = tk.Tk()
+    window.title('Minesweeper')
 
     standart = GameStandarts()
     game = gameframe.GameFrame(standart.get_level(), standart.get_size(), window)
