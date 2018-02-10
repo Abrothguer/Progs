@@ -6,7 +6,7 @@
 
 using namespace std;
 
-/*
+
 int dp[N][M];
 
 int brute_minimum(vector<int> coin, int val, int index){
