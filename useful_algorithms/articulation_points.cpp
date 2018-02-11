@@ -49,9 +49,9 @@ void find_articulation(vector<int> graph[], int node, int t){
         }
         // If the descendant has already been visited it means that this edge
         // is a back edge, and so we take the update the lowest time to arrive
-        // at the node based on the lowest time of its descendant.
+        // at the node based on the visited time of its descendant.
         else{
-            lowest_time[node] = min(lowest_time[node], lowest_time[descendant]);
+            lowest_time[node] = min(lowest_time[node], visited_time[descendant]);
         }
     }
 
