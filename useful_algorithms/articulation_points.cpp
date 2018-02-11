@@ -37,14 +37,15 @@ void find_articulation(vector<int> graph[], int node, int t){
             // Calls the recursion for de descendant, setting its lowest time
             // and visited time variables
             find_articulation(graph, descendant, t+1);
-
-            // If the lowest time of the node is less than or equal to the lowest
+            lowest_time[node] = min(lowest_time[node], lowest_time[descendant]);
+            
+            // If the visited time of the node is less than or equal to the lowest
             // time of its descendant, then the node is a articulation point,
             // meaning that there is no back edges ahead.
-            if(lowest_time[node] <= lowest_time[descendant] and parent[node] != -1){
+            if(visited_time[node] <= lowest_time[descendant] and parent[node] != -1){
                 articulation_pts.insert(node);
             }
-            lowest_time[node] = min(lowest_time[node], lowest_time[descendant]);
+            
         }
         // If the descendant has already been visited it means that this edge
         // is a back edge, and so we take the update the lowest time to arrive
