@@ -32,16 +32,16 @@ void find_bridges(vector <int> graph[], int node, int t){
 
             parent[descendant] = node;
             find_bridges(graph, descendant, t+1);
-
-            if(lowest_time[node] < lowest_time[descendant]){
+            lowest_time[node] = min(lowest_time[node], lowest_time[descendant]);
+            
+            if(visited_time[node] < lowest_time[descendant]){
                 bridges.insert(make_pair(node, descendant));
             }
-            lowest_time[node] = min(lowest_time[node], lowest_time[descendant]);
         }
 
         // If descendant has been visited, update the lowest time
         else{
-            lowest_time[node] = min(lowest_time[node], lowest_time[descendant]);
+            lowest_time[node] = min(lowest_time[node], visited_time[descendant]);
         }
     }
 }
