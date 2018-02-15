@@ -15,7 +15,6 @@ class MineGrid(tk.Frame):
         self.minefield = []
         self.make_grid()
 
-
     def make_grid(self):
         """ Makes the minefield grid """
         maxx, maxy = self.fieldsize
@@ -27,7 +26,6 @@ class MineGrid(tk.Frame):
                 button.grid(row=i, column=j)
                 buttonlist.append(button)
             self.minefield.append(buttonlist)
-
 
     def set_commands(self, right_click_command, left_click_command):
         """ Sets the commands for each button on the minefield """
@@ -41,7 +39,6 @@ class MineGrid(tk.Frame):
                 self.minefield[i][j].bind('<Button-3>', lambda event, pos=position:
                                           left_click_command(pos))
 
-
     def show_tile(self, coords):
         """ Try to show the specified tile """
         posx, posy = coords
@@ -51,7 +48,6 @@ class MineGrid(tk.Frame):
             return -1
         danger = self.minefield[posx][posy].show_tile()
         return danger
-
 
     def flag_tile(self, coords):
         """ Flag or unflag the tile """
@@ -84,13 +80,13 @@ class MineGrid(tk.Frame):
             for j in range(-1, 2):
                 if i is 0 and j is 0:
                     continue
-                if posx+i < 0 or posy+j < 0 or posx+i >= maxx or posy+j >= maxy:
+                if posx + i < 0 or posy + j < 0 or posx + i >= maxx or posy + j >= maxy:
                     continue
-                if self.minefield[posx+i][posy+j].get_visible() is True:
+                if self.minefield[posx + i][posy + j].get_visible() is True:
                     continue
 
-                self.minefield[posx+i][posy+j].show_tile()
-                revealed += self.reveal_blanks((posx+i, posy+j))
+                self.minefield[posx + i][posy + j].show_tile()
+                revealed += self.reveal_blanks((posx + i, posy + j))
 
         return revealed + 1
 
@@ -98,7 +94,7 @@ class MineGrid(tk.Frame):
         """ Generate the mines randomly on the field """
 
         posx, posy = self.fieldsize
-        total_tiles = posx*posy
+        total_tiles = posx * posy
 
         if level == 'easy':
             total_mines = 0.10 * total_tiles
@@ -110,8 +106,8 @@ class MineGrid(tk.Frame):
         holder = total_mines
 
         while total_mines != 0:
-            coordx = randint(0, posx-1)
-            coordy = randint(0, posy-1)
+            coordx = randint(0, posx - 1)
+            coordy = randint(0, posy - 1)
 
             if self.minefield[coordx][coordy].get_danger() >= 9:
                 continue
@@ -122,9 +118,9 @@ class MineGrid(tk.Frame):
                 for j in range(-1, 2):
                     if i is 0 and j is 0:
                         continue
-                    if coordx+i < 0 or coordy+j < 0 or coordx+i >= posx or coordy+j >= posy:
+                    if coordx + i < 0 or coordy + j < 0 or coordx + i >= posx or coordy + j >= posy:
                         continue
-                    self.minefield[coordx+i][coordy+j].increment_danger()
+                    self.minefield[coordx + i][coordy + j].increment_danger()
 
             total_mines -= 1
 
@@ -137,7 +133,6 @@ class MineGrid(tk.Frame):
         for i in range(0, posx):
             for j in range(0, posy):
                 self.minefield[i][j].hide_tile()
-
 
     def haltall(self):
         """ Halt all the tiles """
@@ -161,7 +156,6 @@ class ControlPanel(tk.Frame):
         self.bomblabel.config(text='Bombs left {}'.format(num))
 
 
-
 class GameFrame(tk.Frame):
     """ Condenses the MineGrid and ControlPanel classes into one """
 
@@ -170,17 +164,14 @@ class GameFrame(tk.Frame):
         self.field = MineGrid(gridsize, self)
         self.score = ControlPanel(self)
         self.result = None
-        print 'ALL VARS SETTED '
         self.mines = self.field.generate_mines(level)
-        self.normal_tiles = (gridsize[0]*gridsize[1]) - self.mines
+        self.normal_tiles = (gridsize[0] * gridsize[1]) - self.mines
         self.tiles_showed = 0
-        print 'GENERATE ALL GOOD'
         self.score.change_text(self.mines)
         self.field.set_commands(self.show_command, self.flag_command)
 
         self.field.pack()
         self.score.pack()
-
 
     def show_command(self, position):
         """ Command called by a grid button when left-clicked """

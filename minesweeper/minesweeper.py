@@ -27,6 +27,7 @@ class ChangeGridWindow(tkSimpleDialog.Dialog):
         ymax = self.yentry.get()
         self.result = xmax, ymax
 
+
 class GameStandarts(object):
     """ Defines variables for the game, these variables can be changed by the user """
 
@@ -104,7 +105,6 @@ class DropDownMenu(tk.Menu):
         # Add Separator and Exit label
         self.sub_game.add_separator()
         self.sub_game.add_command(label='Exit', command=self.exit)
-
 
     def show_size_panel(self):
         """ Show the panel for the user to modify the grid size """
@@ -196,17 +196,13 @@ def main():
                 game.halt()
                 continue
             game.pack_forget()
-            print 'stans lev {} and siz {}'.format(standart.get_level(), standart.get_size())
             game = gameframe.GameFrame(standart.get_level(), standart.get_size(), window)
             game.pack()
 
         if standart.get_new_game() is True:
             game.pack_forget()
-            print 'stans lev {} and siz {}'.format(standart.get_level(), standart.get_size())
             game = gameframe.GameFrame(standart.get_level(), standart.get_size(), window)
-            print 'got ourselves a new game'
             game.pack()
-            print 'packed just fine'
             standart.set_new_game(False)
 
         if standart.get_restart() is True:
