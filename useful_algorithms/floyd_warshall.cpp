@@ -7,7 +7,6 @@ using namespace std;
 
 void floyd_warshall(vector < pair<int, int> > graph [], int n){
     int distance[n][n];
-    //int path[n][n];
 
     // Clears the distance matrix.
     for (int i = 0; i < n; ++i) {
