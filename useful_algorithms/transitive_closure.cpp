@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void transitive_dfs(vector <int> graph[], int source, vector <vector <int> >&tclosure, int target) {
+void transitive_dfs(vector <int> graph[], int source, vector <vector <int> >&tclosure, int target){
     int node, vertex;
     int visited[tclosure.size()];
 
@@ -17,7 +17,7 @@ void transitive_dfs(vector <int> graph[], int source, vector <vector <int> >&tcl
     stack <int> dfsstk;
     dfsstk.push(target);
 
-    while (not dfsstk.empty()) {
+    while (not dfsstk.empty() ) {
         node = dfsstk.top();
         dfsstk.pop();
 
@@ -28,14 +28,14 @@ void transitive_dfs(vector <int> graph[], int source, vector <vector <int> >&tcl
 
         for (unsigned i = 0; i < graph[node].size(); ++i) {
             vertex = graph[node][i];
-            if ((not visited[vertex])and(not tclosure[source][vertex])) {
+            if ( (not visited[vertex])and(not tclosure[source][vertex]) ) {
                 dfsstk.push(vertex);
             }
         }
     }
 }
 
-int main() {
+int main(){
     int n, e, a, b;
 
     while (true) {
@@ -74,5 +74,5 @@ int main() {
             cout << endl;
         }
     }
-    return(0);
+    return (0);
 }
