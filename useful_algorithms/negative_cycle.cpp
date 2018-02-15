@@ -4,9 +4,9 @@
 
 using namespace std;
 
-void bellman_ford(vector < pair<int, pair<int, int> > > edges, int n, int src){
+bool bellman_ford(vector < pair<int, pair<int, int> > > edges, int n, int src){
     int v1, v2, w;
-    int parent[n], distance[n];
+    int distance[n];
 
     for (int i = 0; i < n; ++i) {
         distance[i] = INT_MAX;
@@ -22,28 +22,21 @@ void bellman_ford(vector < pair<int, pair<int, int> > > edges, int n, int src){
             if (distance[v1] == INT_MAX) continue;
             else if (distance[v2] > distance[v1] + w) {
                 distance[v2] = distance[v1] + w;
-                parent[v2]   = v1;
             }
         }
     }
 
-    cout << "Vertices shortest distance from source: " << src << endl;
-    for (int i = 0; i < n; ++i) {
-        if (distance[i] == INT_MAX) cout << i << " - Impossible to reach" << endl;
+    for (unsigned j = 0; j < edges.size(); ++j) {
+        v1 = edges[j].second.first;
+        v2 = edges[j].second.second;
+        w  = edges[j].first;
 
-        cout << i << " -> " << distance[i] << "\t Path: ";
-        vector <int> path;
-
-        for (int j = i; j != src; j = parent[j]) {
-            path.push_back(j);
+        if (distance[v1] == INT_MAX) continue;
+        else if (distance[v2] > distance[v1] + w) {
+            return true;
         }
-
-        cout << src;
-        for (int j = path.size() - 1; j >= 0; --j) {
-            cout << " -> " << path[j];
-        }
-        cout << endl;
     }
+    return false;
 }
 
 int main(){
@@ -71,7 +64,11 @@ int main(){
         cout << "Type the source: ";
         cin >> a;
 
-        bellman_ford(edges, n, a);
+        if (bellman_ford(edges, n, a) ) {
+            cout << "There is a negative cycle in your graph!" << endl;
+        }else {
+            cout << "There is not a negative cycle in your graph!" << endl;
+        }
     }
     return 0;
 }
