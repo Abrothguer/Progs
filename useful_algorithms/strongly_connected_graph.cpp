@@ -16,9 +16,37 @@ void dfs(vector<int> graph[], int vertex, bool seen[], stack <int> &finished){
     finished.push(vertex);
 }
 
+bool check_ssg(vector <int> graph[], vector <int> transpose[], int n){
+    stack <int> finished;
+    bool        seen[n];
+    bool        ssc;
+    for (int i = 0; i < n; ++i) {
+        seen[i] = false;
+    }
+
+    dfs(graph, 0, seen, finished);
+
+    // If the dfs did not reach all vertices then the graph is not strongly connected.
+    if (finished.size() != (unsigned) n) {
+        return (false);
+    }
+
+    for (int i = 0; i < n; ++i) {
+        seen[i] = false;
+    }
+    dfs(transpose, finished.top(), seen, finished);
+    ssc = true;
+    for (int i = 0; i < n; ++i) {
+        if (not seen[i]) {
+            ssc = false;
+            break;
+        }
+    }
+    return (ssc);
+}
+
 int main(){
-    int  n, e, a, b;
-    bool ssc;
+    int n, e, a, b;
     while (true) {
         cout << "Nro of vertices: ";
         cin >> n;
@@ -38,33 +66,9 @@ int main(){
             transpose[b].push_back(a);
         }
 
-        stack <int> finished;
-        bool        seen[n];
-        for (int i = 0; i < n; ++i) {
-            seen[i] = false;
-        }
 
-        dfs(graph, 0, seen, finished);
 
-        // If the dfs did not reach all vertices then the graph is not strongly connected.
-        if (finished.size() != (unsigned) n) {
-            cout << "Your graph is not strongly connected" << endl;
-            continue;
-        }
-
-        for (int i = 0; i < n; ++i) {
-            seen[i] = false;
-        }
-        dfs(transpose, finished.top(), seen, finished);
-        ssc = true;
-        for (int i = 0; i < n; ++i) {
-            if (not seen[i]) {
-                ssc = false;
-                break;
-            }
-        }
-
-        if (ssc) {
+        if (check_ssg(graph, transpose, n) ) {
             cout << "Your graph is strongly connected" << endl;
         }
         else{
