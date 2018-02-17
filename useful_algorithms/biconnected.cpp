@@ -49,6 +49,45 @@ bool has_arc_point(vector<int> graph[], int current, int tm){
     return (false);
 }
 
+bool check_biconnected(vector <int> graph[], int n){
+    parent       = (int *) calloc(n, sizeof(int) );
+    visited      = (int *) calloc(n, sizeof(int) );
+    lowest_time  = (int *) calloc(n, sizeof(int) );
+    visited_time = (int *) calloc(n, sizeof(int) );
+
+    parent[0] = -1;
+
+    // If the graph has an articulation point then it is not biconnected.
+    if (has_arc_point(graph, 0, 0) ) {
+        free(parent);
+        free(visited);
+        free(lowest_time);
+        free(visited_time);
+        return (false);
+    }
+    bool bicon = true;
+
+    // If the graph is not connected then it is not biconnected - duh.
+    for (int i = 0; i < n; ++i) {
+        if (not visited[i]) {
+            bicon = false;
+            break;
+        }
+    }
+
+    free(parent);
+    free(visited);
+    free(lowest_time);
+    free(visited_time);
+
+    if (bicon) {
+        return (true);
+    }
+    else{
+        return (false);
+    }
+}
+
 int main(){
     int n, e;
 
@@ -63,7 +102,6 @@ int main(){
 
         vector <int> graph[n];
         int          a, b;
-        bool         bicon;
 
         cout << "Type the edges: " << endl;
         for (int i = 0; i < e; ++i) {
@@ -72,38 +110,11 @@ int main(){
             graph[b].push_back(a);
         }
 
-        parent       = (int *) calloc(n, sizeof(int) );
-        visited      = (int *) calloc(n, sizeof(int) );
-        lowest_time  = (int *) calloc(n, sizeof(int) );
-        visited_time = (int *) calloc(n, sizeof(int) );
-
-        parent[0] = -1;
-
-        // If the graph has an articulation point then it is not biconnected.
-        if (has_arc_point(graph, 0, 0) ) {
-            cout << "Your graph is not biconnected because it has a articulation point" << endl;
-            continue;
-        }
-        bicon = true;
-
-        // If the graph is not connected then it is not biconnected - duh.
-        for (int i = 0; i < n; ++i) {
-            if (not visited[i]) {
-                bicon = false;
-                break;
-            }
-        }
-
-        if (bicon) {
+        if (check_biconnected(graph, n) ) {
             cout << "Your graph is biconnected" << endl;
         }
         else{
             cout << "Your graph is not biconnected" << endl;
         }
-
-        free(parent);
-        free(visited);
-        free(lowest_time);
-        free(visited_time);
     }
 }
